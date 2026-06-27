@@ -2,7 +2,7 @@
   <header class="header" [class.header--scrolled]="menuOpen">
     <div class="container header__inner">
       <a class="header__brand" (click)="scrollTo('hero')" href="javascript:void(0)">
-        <img src="assets/images/Slogoforstebin.png" alt="Stebin Babu logo" class="header__logo" />
+        <img src="favicon.ico" alt="Stebin Babu logo" class="header__logo" />
         <span class="header__name">{{ portfolio.name }}</span>
       </a>
 
@@ -54,16 +54,16 @@
         </div>
         <div class="hero__stats">
           <div class="hero__stat">
-            <span class="hero__stat-value">3+</span>
+            <span class="hero__stat-value">2+</span>
             <span class="hero__stat-label">Years Experience</span>
           </div>
           <div class="hero__stat">
-            <span class="hero__stat-value">{{ portfolio.projects.length }}+</span>
+            <span class="hero__stat-value">{{ portfolio.projects.length }}</span>
             <span class="hero__stat-label">Projects</span>
           </div>
           <div class="hero__stat">
-            <span class="hero__stat-value">{{ portfolio.skills.length }}</span>
-            <span class="hero__stat-label">Skill Areas</span>
+            <span class="hero__stat-value">{{ portfolio.certifications.length }}</span>
+            <span class="hero__stat-label">Certifications</span>
           </div>
         </div>
       </div>
@@ -85,6 +85,10 @@
             <li>
               <span class="about__meta-label">Email</span>
               <a [href]="'mailto:' + portfolio.email">{{ portfolio.email }}</a>
+            </li>
+            <li>
+              <span class="about__meta-label">Phone</span>
+              <a [href]="'tel:' + portfolio.phone">{{ portfolio.phone }}</a>
             </li>
           </ul>
         </div>
@@ -114,19 +118,52 @@
           <span class="section__eyebrow">Projects</span>
           <h2 class="section__title">Selected work</h2>
         </div>
+
+        <div class="projects__tabs">
+          <button
+            class="projects__tab-btn"
+            [class.projects__tab-btn--active]="activeTab === 'all'"
+            (click)="activeTab = 'all'"
+          >
+            All
+          </button>
+          <button
+            class="projects__tab-btn"
+            [class.projects__tab-btn--active]="activeTab === 'work'"
+            (click)="activeTab = 'work'"
+          >
+            Professional Work
+          </button>
+          <button
+            class="projects__tab-btn"
+            [class.projects__tab-btn--active]="activeTab === 'personal'"
+            (click)="activeTab = 'personal'"
+          >
+            Personal Projects
+          </button>
+        </div>
+
         <div class="projects">
-          <article *ngFor="let project of portfolio.projects" class="projects__card">
+          <article *ngFor="let project of filteredProjects" class="projects__card">
             <div class="projects__accent"></div>
+            <div class="projects__header-row">
+              <span
+                class="projects__badge"
+                [class.projects__badge--work]="project.type === 'work'"
+              >
+                {{ project.type === 'work' ? 'Professional' : 'Personal' }}
+              </span>
+            </div>
             <h3 class="projects__title">{{ project.title }}</h3>
             <p class="projects__description">{{ project.description }}</p>
             <ul class="projects__tags">
               <li *ngFor="let tag of project.tags" class="projects__tag">{{ tag }}</li>
             </ul>
             <div class="projects__links">
-              <a *ngIf="project.link" [href]="project.link" class="projects__link" target="_blank" rel="noopener">
+              <a *ngIf="project.link && project.link !== '#'" [href]="project.link" class="projects__link" target="_blank" rel="noopener">
                 Live Demo
               </a>
-              <a *ngIf="project.github" [href]="project.github" class="projects__link" target="_blank" rel="noopener">
+              <a *ngIf="project.github && project.github !== '#'" [href]="project.github" class="projects__link" target="_blank" rel="noopener">
                 GitHub
               </a>
             </div>
@@ -149,10 +186,89 @@
                 <h3 class="timeline__role">{{ job.role }}</h3>
                 <span class="timeline__period">{{ job.period }}</span>
               </div>
-              <p class="timeline__company">{{ job.company }}</p>
-              <p class="timeline__description">{{ job.description }}</p>
+              <p class="timeline__company">{{ job.company }} &bull; <span class="timeline__location">{{ job.location }}</span></p>
+              <ul class="timeline__description-list">
+                <li *ngFor="let point of job.description">{{ point }}</li>
+              </ul>
             </div>
           </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Education, Certifications & Achievements Section -->
+    <section id="education" class="section education-credentials-section">
+      <div class="container education-credentials__grid">
+        <!-- Education Timeline -->
+        <div class="education-column">
+          <div class="section__header">
+            <span class="section__eyebrow">Education</span>
+            <h2 class="section__title">Academic Credentials</h2>
+          </div>
+          <div class="edu-timeline">
+            <article *ngFor="let edu of portfolio.education" class="edu-timeline__item">
+              <div class="edu-timeline__marker"></div>
+              <div class="edu-timeline__content">
+                <div class="edu-timeline__header">
+                  <h3 class="edu-timeline__degree">{{ edu.degree }}</h3>
+                  <span class="edu-timeline__period">{{ edu.period }}</span>
+                </div>
+                <p class="edu-timeline__institution">{{ edu.institution }}</p>
+                <p *ngIf="edu.university" class="edu-timeline__university">{{ edu.university }}</p>
+                <div class="edu-timeline__score">
+                  <span class="edu-timeline__score-label">Score:</span>
+                  <span class="edu-timeline__score-value">{{ edu.score }}</span>
+                </div>
+              </div>
+            </article>
+          </div>
+        </div>
+
+        <!-- Credentials / Certifications & Achievements -->
+        <div id="credentials" class="credentials-column">
+          <!-- Certifications -->
+          <div class="credentials-subsection">
+            <div class="section__header">
+              <span class="section__eyebrow">Certifications</span>
+              <h2 class="section__title">Professional Certs</h2>
+            </div>
+            <div class="certifications-list">
+              <article *ngFor="let cert of portfolio.certifications" class="cert-card">
+                <div class="cert-card__icon">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="feather feather-award">
+                    <circle cx="12" cy="8" r="7"></circle>
+                    <polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline>
+                  </svg>
+                </div>
+                <div class="cert-card__content">
+                  <h3 class="cert-card__title">{{ cert.title }}</h3>
+                  <p class="cert-card__meta">
+                    <span class="cert-card__issuer">{{ cert.issuer }}</span>
+                    <span class="cert-card__divider">&bull;</span>
+                    <span class="cert-card__year">{{ cert.year }}</span>
+                  </p>
+                  <a *ngIf="cert.credentialUrl && cert.credentialUrl !== '#'" [href]="cert.credentialUrl" target="_blank" class="cert-card__link">Verify Credential</a>
+                </div>
+              </article>
+            </div>
+          </div>
+
+          <!-- Achievements -->
+          <div class="credentials-subsection achievements-section">
+            <div class="section__header">
+              <span class="section__eyebrow">Achievements</span>
+              <h2 class="section__title">Key Milestones</h2>
+            </div>
+            <div class="achievements-list">
+              <article *ngFor="let ach of portfolio.achievements" class="achievement-card">
+                <div class="achievement-card__header">
+                  <h3 class="achievement-card__title">{{ ach.title }}</h3>
+                  <span class="achievement-card__year">{{ ach.year }}</span>
+                </div>
+                <p class="achievement-card__description">{{ ach.description }}</p>
+              </article>
+            </div>
+          </div>
         </div>
       </div>
     </section>
@@ -165,6 +281,16 @@
           <p class="contact__text">
             Have a project in mind or want to connect? I'd love to hear from you.
           </p>
+          <ul class="contact__info-list">
+            <li>
+              <span class="contact__info-label">Phone</span>
+              <a [href]="'tel:' + portfolio.phone" class="contact__info-value">{{ portfolio.phone }}</a>
+            </li>
+            <li>
+              <span class="contact__info-label">Location</span>
+              <span class="contact__info-value">{{ portfolio.location }}</span>
+            </li>
+          </ul>
         </div>
         <div class="contact__actions">
           <a class="btn btn--primary btn--large" [href]="'mailto:' + portfolio.email">

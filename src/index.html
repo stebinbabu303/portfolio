@@ -7,9 +7,73 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Stebin Babu — Software Developer portfolio. Projects, skills, and contact.">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
-
+  <style>
+    /* Preloader styling */
+    .preloader {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: #0A0A0A;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    }
+    .preloader__content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1.25rem;
+    }
+    .preloader__logo {
+      width: 64px;
+      height: 64px;
+      object-fit: contain;
+      animation: preloader-pulse 2s infinite ease-in-out;
+    }
+    .preloader__spinner {
+      width: 32px;
+      height: 32px;
+      border: 3px solid rgba(212, 14, 6, 0.15);
+      border-radius: 50%;
+      border-top-color: #D40E06;
+      animation: preloader-spin 0.8s linear infinite;
+    }
+    .preloader__text {
+      color: #FFFFFF;
+      font-size: 0.875rem;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      margin: 0;
+      text-transform: uppercase;
+      opacity: 0.8;
+      animation: preloader-fade 2s infinite ease-in-out;
+    }
+    @keyframes preloader-spin {
+      to { transform: rotate(360deg); }
+    }
+    @keyframes preloader-pulse {
+      0%, 100% { transform: scale(0.92); opacity: 0.7; }
+      50% { transform: scale(1.08); opacity: 1; }
+    }
+    @keyframes preloader-fade {
+      0%, 100% { opacity: 0.4; }
+      50% { opacity: 0.9; }
+    }
+  </style>
 </head>
 <body>
-  <app-root></app-root>
+  <app-root>
+    <div class="preloader">
+      <div class="preloader__content">
+        <img src="favicon.ico" alt="Stebin Babu" class="preloader__logo">
+        <div class="preloader__spinner"></div>
+        <p class="preloader__text">Stebin Babu</p>
+      </div>
+    </div>
+  </app-root>
 </body>
 </html>

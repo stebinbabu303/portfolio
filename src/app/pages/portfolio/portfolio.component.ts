@@ -13,11 +13,21 @@ export class PortfolioComponent {
     { label: 'Skills', target: 'skills' },
     { label: 'Projects', target: 'projects' },
     { label: 'Experience', target: 'experience' },
+    { label: 'Education', target: 'education' },
+    { label: 'Credentials', target: 'credentials' },
     { label: 'Contact', target: 'contact' }
   ];
 
+  activeTab: 'all' | 'work' | 'personal' = 'all';
   menuOpen = false;
   currentYear = new Date().getFullYear();
+
+  get filteredProjects() {
+    if (this.activeTab === 'all') {
+      return this.portfolio.projects;
+    }
+    return this.portfolio.projects.filter(p => p.type === this.activeTab);
+  }
 
   scrollTo(sectionId: string): void {
     this.menuOpen = false;
