@@ -1,0 +1,189 @@
+<div class="portfolio">
+  <header class="header" [class.header--scrolled]="menuOpen">
+    <div class="container header__inner">
+      <a class="header__brand" (click)="scrollTo('hero')" href="javascript:void(0)">
+        <img src="assets/images/Slogoforstebin.png" alt="Stebin Babu logo" class="header__logo" />
+        <span class="header__name">{{ portfolio.name }}</span>
+      </a>
+
+      <button
+        class="header__toggle"
+        type="button"
+        [attr.aria-expanded]="menuOpen"
+        aria-label="Toggle navigation"
+        (click)="menuOpen = !menuOpen"
+      >
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+
+      <nav class="header__nav" [class.header__nav--open]="menuOpen">
+        <a
+          *ngFor="let link of navLinks"
+          class="header__link"
+          href="javascript:void(0)"
+          (click)="scrollTo(link.target)"
+        >
+          {{ link.label }}
+        </a>
+        <a class="btn btn--primary header__cta" href="javascript:void(0)" (click)="scrollTo('contact')">
+          Get in Touch
+        </a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section id="hero" class="hero">
+      <div class="hero__glow"></div>
+      <div class="container hero__content">
+        <p class="hero__eyebrow">Portfolio</p>
+        <h1 class="hero__title">
+          Hi, I'm <span class="text-accent">{{ portfolio.name.split(' ')[0] }}</span>
+        </h1>
+        <p class="hero__role">{{ portfolio.title }}</p>
+        <p class="hero__tagline">{{ portfolio.tagline }}</p>
+        <div class="hero__actions">
+          <a class="btn btn--primary" href="javascript:void(0)" (click)="scrollTo('projects')">
+            View My Work
+          </a>
+          <a class="btn btn--outline" href="javascript:void(0)" (click)="scrollTo('contact')">
+            Contact Me
+          </a>
+        </div>
+        <div class="hero__stats">
+          <div class="hero__stat">
+            <span class="hero__stat-value">3+</span>
+            <span class="hero__stat-label">Years Experience</span>
+          </div>
+          <div class="hero__stat">
+            <span class="hero__stat-value">{{ portfolio.projects.length }}+</span>
+            <span class="hero__stat-label">Projects</span>
+          </div>
+          <div class="hero__stat">
+            <span class="hero__stat-value">{{ portfolio.skills.length }}</span>
+            <span class="hero__stat-label">Skill Areas</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="about" class="section">
+      <div class="container section__grid">
+        <div class="section__header">
+          <span class="section__eyebrow">About Me</span>
+          <h2 class="section__title">Building with intent</h2>
+        </div>
+        <div class="section__body">
+          <p class="about__text">{{ portfolio.about }}</p>
+          <ul class="about__meta">
+            <li>
+              <span class="about__meta-label">Location</span>
+              <span>{{ portfolio.location }}</span>
+            </li>
+            <li>
+              <span class="about__meta-label">Email</span>
+              <a [href]="'mailto:' + portfolio.email">{{ portfolio.email }}</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="skills" class="section section--alt">
+      <div class="container">
+        <div class="section__header section__header--center">
+          <span class="section__eyebrow">Skills</span>
+          <h2 class="section__title">What I work with</h2>
+        </div>
+        <div class="skills">
+          <article *ngFor="let group of portfolio.skills" class="skills__card">
+            <h3 class="skills__category">{{ group.category }}</h3>
+            <ul class="skills__list">
+              <li *ngFor="let skill of group.skills" class="skills__item">{{ skill }}</li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="projects" class="section">
+      <div class="container">
+        <div class="section__header section__header--center">
+          <span class="section__eyebrow">Projects</span>
+          <h2 class="section__title">Selected work</h2>
+        </div>
+        <div class="projects">
+          <article *ngFor="let project of portfolio.projects" class="projects__card">
+            <div class="projects__accent"></div>
+            <h3 class="projects__title">{{ project.title }}</h3>
+            <p class="projects__description">{{ project.description }}</p>
+            <ul class="projects__tags">
+              <li *ngFor="let tag of project.tags" class="projects__tag">{{ tag }}</li>
+            </ul>
+            <div class="projects__links">
+              <a *ngIf="project.link" [href]="project.link" class="projects__link" target="_blank" rel="noopener">
+                Live Demo
+              </a>
+              <a *ngIf="project.github" [href]="project.github" class="projects__link" target="_blank" rel="noopener">
+                GitHub
+              </a>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="experience" class="section section--alt">
+      <div class="container">
+        <div class="section__header section__header--center">
+          <span class="section__eyebrow">Experience</span>
+          <h2 class="section__title">Where I've contributed</h2>
+        </div>
+        <div class="timeline">
+          <article *ngFor="let job of portfolio.experience" class="timeline__item">
+            <div class="timeline__marker"></div>
+            <div class="timeline__content">
+              <div class="timeline__header">
+                <h3 class="timeline__role">{{ job.role }}</h3>
+                <span class="timeline__period">{{ job.period }}</span>
+              </div>
+              <p class="timeline__company">{{ job.company }}</p>
+              <p class="timeline__description">{{ job.description }}</p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact" class="section contact">
+      <div class="container contact__inner">
+        <div class="contact__content">
+          <span class="section__eyebrow">Contact</span>
+          <h2 class="section__title">Let's work together</h2>
+          <p class="contact__text">
+            Have a project in mind or want to connect? I'd love to hear from you.
+          </p>
+        </div>
+        <div class="contact__actions">
+          <a class="btn btn--primary btn--large" [href]="'mailto:' + portfolio.email">
+            {{ portfolio.email }}
+          </a>
+          <div class="contact__social">
+            <a [href]="portfolio.social.github" target="_blank" rel="noopener" aria-label="GitHub">GitHub</a>
+            <a [href]="portfolio.social.linkedin" target="_blank" rel="noopener" aria-label="LinkedIn">LinkedIn</a>
+            <a [href]="portfolio.social.twitter" target="_blank" rel="noopener" aria-label="Twitter">Twitter</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer__inner">
+      <p>&copy; {{ currentYear }} {{ portfolio.name }}. All rights reserved.</p>
+      <p class="footer__accent">Designed with purpose.</p>
+    </div>
+  </footer>
+</div>
